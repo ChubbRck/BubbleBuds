@@ -44,6 +44,7 @@ Preload.prototype = {
 		this.game.load.image('space', '/assets/deep-space.jpg');
     	this.game.load.image('bullet', '/assets/bullets.png');
     	this.game.load.image('ship', '/assets/ship.png');
+    	this.game.load.image('wizball', '/assets/wizball.png');
 
 		// Cutscene assets
 
