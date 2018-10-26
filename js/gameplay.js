@@ -15,6 +15,7 @@ Gameplay.prototype = {
     game.stage.backgroundColor = "#1509ff";
     
     bb.p1;
+    
     bb.cursors = null;
 
     bb.bullet;
@@ -101,7 +102,7 @@ Gameplay.prototype = {
     bb.p1 = game.add.sprite(game.width/2, game.height/2, 'ship');
     bb.p1.lives = 3
     bb.p1.anchor.set(0.5);
-
+    bb.p1.score = 0;
     //  and its physics settings
     game.physics.enable(bb.p1, Phaser.Physics.ARCADE);
 
@@ -123,6 +124,13 @@ Gameplay.prototype = {
         lg_bubble.body.velocity.y = -40 + Math.random(80);
     }
     
+      bb.scoreDisplay = game.add.text(100, 100, "100", {
+        font: "65px Arial",
+        fill: "#ffffff",
+        align: "left"
+    });
+
+    bb.scoreDisplay.anchor.setTo(0.5, 0.5);
 
   },
   update: function() {
@@ -155,6 +163,14 @@ Gameplay.prototype = {
         bb.fireBullet();
     }
 
+    if (bb.p1.invicible) {
+      bb.p1.alpha = .4
+    } else{
+      bb.p1.alpha = 1;
+      }
+
+
+
     bb.screenWrap(bb.p1);
 
     bullets.forEachExists(this.screenWrap, this);
@@ -164,6 +180,8 @@ Gameplay.prototype = {
     bb.checkForBubbleSpawn();
 
     bb.checkForGameOver();
+
+    bb.updateScoreDisplay();
 
 
     //check for collisions between bullets and asteroids
@@ -191,7 +209,7 @@ Gameplay.prototype = {
 
   if (!bb.p1.alive && bb.p1.lives >= 0){
     // for now just respawn
-    bb.p1.reset(200,200);
+    
   } else if (!bb.p1.alive && bb.p1.lives <= 0){
     // game over
     this.game.state.start("Preload");
@@ -199,25 +217,54 @@ Gameplay.prototype = {
 
   },
 
+  updateScoreDisplay: function(){
+    var bb = this;
+    bb.scoreDisplay.setText(bb.p1.score);
+  },
+
   killPlayer: function(player,bubble){
-    player.kill();
-    player.lives -= 1;
+    if (!player.invicible){
+      player.kill();
+      player.lives -= 1;
+
+      if (player.lives >= 0){
+        game.time.events.add(Phaser.Timer.SECOND * 1, this.respawnPlayer, this).autoDestroy = true;
+      }
+    }
 
   },
+
+  respawnPlayer: function(){
+    var bb = this;
+    bb.p1.reset(game.width/2,game.height/2)
+    bb.p1.invicible = true;
+    game.time.events.add(Phaser.Timer.SECOND * 2, bb.removeInvincibility, this).autoDestroy = true;
+  },
+
+  removeInvincibility: function(){
+    var bb = this;
+    bb.p1.invicible = false;
+  },
+
   killBubble: function(bullet, bubble){
+    var bb = this;
     switch(bubble.type){
       case "lg_bubble":
+         bb.p1.score += 100
          this.spawnBubble(bubble.x+30,bubble.y+30,"md_bubble")
          this.spawnBubble(bubble.x-30,bubble.y-30,"md_bubble")
          this.spawnBubble(bubble.x+30,bubble.y-30,"md_bubble")
       break;
       case "md_bubble":
+         bb.p1.score += 50
          this.spawnBubble(bubble.x+10,bubble.y+10,"sm_bubble")
          this.spawnBubble(bubble.x-10,bubble.y-10,"sm_bubble")
          this.spawnBubble(bubble.x+10,bubble.y-10,"sm_bubble")
          this.spawnBubble(bubble.x-10,bubble.y+10,"sm_bubble")
       break;
-
+      case "sm_bubble":
+         bb.p1.score += 25
+      break;
       default:
       break;
     }
@@ -258,6 +305,7 @@ Gameplay.prototype = {
 
   checkForBubbleSpawn: function(){
     var bb = this;
+    var padding = 50;
     var lg_bubble = lg_bubbles.getFirstExists(false);
     if (game.time.now > bb.bubbleSpawnTime){
       if (lg_bubble){
@@ -267,7 +315,7 @@ Gameplay.prototype = {
             case 1:
               // top border
               console.log("top spawn")
-              lg_bubble.reset(game.rnd.integerInRange(0, game.width),0);
+              lg_bubble.reset(game.rnd.integerInRange(0, game.width),0-padding);
               lg_bubble.body.velocity.x = -40 + game.rnd.integerInRange(0, 80);
 
 
@@ -281,7 +329,7 @@ Gameplay.prototype = {
             case 2:
               // right border
               console.log("right spawn")
-              lg_bubble.reset(game.width, game.rnd.integerInRange(0, game.height));
+              lg_bubble.reset(game.width+padding, game.rnd.integerInRange(0, game.height));
               lg_bubble.body.velocity.x = 0 - game.rnd.integerInRange(0, 40);
 
 
@@ -296,7 +344,7 @@ Gameplay.prototype = {
             case 3:
               // bottom border
               console.log("bottom spawn")
-              lg_bubble.reset(game.rnd.integerInRange(0, game.width),game.height);
+              lg_bubble.reset(game.rnd.integerInRange(0, game.width),game.height+padding);
               lg_bubble.body.velocity.x = -40 + game.rnd.integerInRange(0, 80);
 
 
@@ -310,7 +358,7 @@ Gameplay.prototype = {
             case 4:
               // left border
               console.log("left spawn")
-              lg_bubble.reset(0,game.rnd.integerInRange(0, game.height));
+              lg_bubble.reset(0-padding,game.rnd.integerInRange(0, game.height));
               lg_bubble.body.velocity.x = 0 + game.rnd.integerInRange(0, 40);
 
 
@@ -338,6 +386,7 @@ Gameplay.prototype = {
         {
             bullet.reset(bb.p1.body.x + 16, bb.p1.body.y + 16);
             bullet.lifespan = 2000;
+            bullet.owner = bb.b1;
             bullet.rotation = bb.p1.rotation;
             game.physics.arcade.velocityFromRotation(bb.p1.rotation, 400, bullet.body.velocity);
             bb.bulletTime = game.time.now + 300;
@@ -345,23 +394,23 @@ Gameplay.prototype = {
     }
   },
   screenWrap:function(sprite){
+    var padding = 50;
+    if (sprite.x < 0 - padding)
+    {
+        sprite.x = game.width + padding;
+    }
+    else if (sprite.x > game.width + padding)
+    {
+        sprite.x = 0 - padding;
+    }
 
-    if (sprite.x < 0)
+    if (sprite.y < 0 - padding)
     {
-        sprite.x = game.width;
+        sprite.y = game.height + padding;
     }
-    else if (sprite.x > game.width)
+    else if (sprite.y > game.height + padding)
     {
-        sprite.x = 0;
-    }
-
-    if (sprite.y < 0)
-    {
-        sprite.y = game.height;
-    }
-    else if (sprite.y > game.height)
-    {
-        sprite.y = 0;
+        sprite.y = 0 - padding;
     }
   },
 
