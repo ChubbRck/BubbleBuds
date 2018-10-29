@@ -58,7 +58,7 @@ Gameplay.prototype = {
     md_bubbles.physicsBodyType = Phaser.Physics.ARCADE;
 
     //  All 40 of them
-    md_bubbles.createMultiple(40, 'wizball');
+    md_bubbles.createMultiple(40, 'md_bubble');
     md_bubbles.setAll('anchor.x', 0.5);
     md_bubbles.setAll('anchor.y', 0.5);
     md_bubbles.setAll('width', 50);
@@ -69,18 +69,19 @@ Gameplay.prototype = {
       // bubble.body.setCircle(25);
     })
 
+  
     //  Add a list of small bubbles
    sm_bubbles = game.add.group();
    sm_bubbles.enableBody = true;
    sm_bubbles.physicsBodyType = Phaser.Physics.ARCADE;
 
     //  All 60 of them
-   sm_bubbles.createMultiple(60, 'wizball');
+   sm_bubbles.createMultiple(200, 'sm_bubble');
    sm_bubbles.setAll('anchor.x', 0.5);
    sm_bubbles.setAll('anchor.y', 0.5);
 
-   sm_bubbles.setAll('width', 20);
-   sm_bubbles.setAll('height', 20);
+   sm_bubbles.setAll('width', 25);
+   sm_bubbles.setAll('height', 25);
    sm_bubbles.setAll('type', 'sm_bubble')
    sm_bubbles.setAll('mass', '0.4')
    sm_bubbles.forEach(function (bubble){
@@ -98,8 +99,12 @@ Gameplay.prototype = {
     bullets.setAll('anchor.x', 0.5);
     bullets.setAll('anchor.y', 0.5);
 
+
     //  Our player ship
     bb.p1 = game.add.sprite(game.width/2, game.height/2, 'ship');
+    bb.p1.width = 89;
+    bb.p1.height = 96;
+    bb.p1.scale.setTo(0.5)
     bb.p1.lives = 3
     bb.p1.anchor.set(0.5);
     bb.p1.score = 0;
@@ -113,17 +118,52 @@ Gameplay.prototype = {
     bb.cursors = game.input.keyboard.createCursorKeys();
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
 
-    // create a test large asteroid
-    
-    var lg_bubble = lg_bubbles.getFirstExists(false);
+    // Let's spawn 5 big asteroids to start
 
-    if (lg_bubble)
+    var padding = 50;
+    var lg_bubble_one = lg_bubbles.getFirstExists(false);
+
+    if (lg_bubble_one)
     {
-        lg_bubble.reset(200,200);
-        lg_bubble.body.velocity.x = -40 + Math.random(80);
-        lg_bubble.body.velocity.y = -40 + Math.random(80);
+        lg_bubble_one.reset(0-padding,game.height/2);
+        lg_bubble_one.body.velocity.x = game.rnd.integerInRange(0, 40);
+        lg_bubble_one.body.velocity.y = -40 + game.rnd.integerInRange(0, 80);
     }
-    
+
+    var lg_bubble_two = lg_bubbles.getFirstExists(false);
+
+    if (lg_bubble_two)
+    {
+        lg_bubble_two.reset(game.width+padding,game.height/2);
+        lg_bubble_two.body.velocity.x = -1 * game.rnd.integerInRange(0, 40);
+        lg_bubble_two.body.velocity.y = -40 + game.rnd.integerInRange(0, 80);
+    }
+
+    var lg_bubble_three = lg_bubbles.getFirstExists(false);
+
+    if (lg_bubble_three)
+    {
+        lg_bubble_three.reset(game.width/2,0-padding);
+        lg_bubble_three.body.velocity.x = -40 + game.rnd.integerInRange(0, 80);
+        lg_bubble_three.body.velocity.y =  game.rnd.integerInRange(0, 40);
+    }
+
+    var lg_bubble_four = lg_bubbles.getFirstExists(false);
+
+    if (lg_bubble_four)
+    {
+        lg_bubble_four.reset(game.width/2,game.height+padding);
+        lg_bubble_four.body.velocity.x = -40 + game.rnd.integerInRange(0, 80);
+        lg_bubble_four.body.velocity.y = -1 * game.rnd.integerInRange(0, 40);
+    }
+
+      // Add a list of explosions 
+    explosions = game.add.group();
+    explosions.createMultiple(20, 'explosion');
+    explosions.setAll('anchor.x', 0.5)
+    explosions.setAll('anchor.y', 0.5)
+
+  
       bb.scoreDisplay = game.add.text(100, 100, "100", {
         font: "65px Arial",
         fill: "#ffffff",
@@ -177,6 +217,8 @@ Gameplay.prototype = {
     lg_bubbles.forEachExists(this.screenWrap, this);
     md_bubbles.forEachExists(this.screenWrap, this);
 
+    explosions.forEachExists(this.manageExplosions, this);
+
     bb.checkForBubbleSpawn();
 
     bb.checkForGameOver();
@@ -194,13 +236,13 @@ Gameplay.prototype = {
     game.physics.arcade.overlap(bullets, md_bubbles, bb.killBubble, null, this); 
     game.physics.arcade.overlap(bb.p1, md_bubbles, bb.killPlayer, null, this); 
     // game.physics.arcade.collide(lg_bubbles, lg_bubbles, null, null, this); 
-    game.physics.arcade.collide(lg_bubbles);
-    game.physics.arcade.collide(md_bubbles);
-    game.physics.arcade.collide(sm_bubbles);
+    // game.physics.arcade.collide(lg_bubbles);
+    // game.physics.arcade.collide(md_bubbles);
+    // game.physics.arcade.collide(sm_bubbles);
 
-    game.physics.arcade.collide(sm_bubbles,md_bubbles);
-    game.physics.arcade.collide(sm_bubbles,lg_bubbles);
-    game.physics.arcade.collide(md_bubbles,lg_bubbles);
+    // game.physics.arcade.collide(sm_bubbles,md_bubbles);
+    // game.physics.arcade.collide(sm_bubbles,lg_bubbles);
+    // game.physics.arcade.collide(md_bubbles,lg_bubbles);
   },
 
   checkForGameOver: function(){
@@ -224,6 +266,7 @@ Gameplay.prototype = {
 
   killPlayer: function(player,bubble){
     if (!player.invicible){
+      this.fireExplosion(player.x, player.y)
       player.kill();
       player.lives -= 1;
 
@@ -270,7 +313,7 @@ Gameplay.prototype = {
     }
       
     
-
+    this.fireExplosion(bubble.x,bubble.y)
     bullet.kill();
     bubble.kill();
   },
@@ -278,7 +321,7 @@ Gameplay.prototype = {
   spawnBubble: function(locx, locy, type){
     console.log("spawning a bubble")
     var bubble;
-    var speed_modifier = 1
+    var speed_modifier = 2
     switch(type){
       case "lg_bubble":
         bubble = lg_bubbles.getFirstExists(false);
@@ -286,11 +329,11 @@ Gameplay.prototype = {
       case "md_bubble":
         console.log("A medium bubble, actually")
         bubble = md_bubbles.getFirstExists(false);
-        speed_modifier = 1.25
+        speed_modifier = 3
       break;
       case "sm_bubble":
         bubble = sm_bubbles.getFirstExists(false);
-        speed_modifier = 1.5
+        speed_modifier = 4
       break;
       default:
         bubble = lg_bubbles.getFirstExists(false);
@@ -317,9 +360,6 @@ Gameplay.prototype = {
               console.log("top spawn")
               lg_bubble.reset(game.rnd.integerInRange(0, game.width),0-padding);
               lg_bubble.body.velocity.x = -40 + game.rnd.integerInRange(0, 80);
-
-
-
               lg_bubble.body.velocity.y = 0 + game.rnd.integerInRange(0, 40);
 
 
@@ -373,6 +413,11 @@ Gameplay.prototype = {
 
          
           bb.bubbleSpawnTime = game.time.now + bb.bubbleSpawnRate
+          bb.bubbleSpawnRate -= 50;
+          console.log("spa2ned more bubs. Rate is now " +bb.bubbleSpawnRate)
+          if (bb.bubbleSpawnRate < 1000){
+            bb.bubbleSpawnRate == 1000
+          }
       }
     }
   },
@@ -384,7 +429,7 @@ Gameplay.prototype = {
 
         if (bullet)
         {
-            bullet.reset(bb.p1.body.x + 16, bb.p1.body.y + 16);
+            bullet.reset(bb.p1.x, bb.p1.y);
             bullet.lifespan = 2000;
             bullet.owner = bb.b1;
             bullet.rotation = bb.p1.rotation;
@@ -393,6 +438,21 @@ Gameplay.prototype = {
         }
     }
   },
+
+  fireExplosion:function(xloc,yloc){
+    explosion = explosions.getFirstExists(false);
+    explosion.explosionTime = game.time.now + 100;
+        if (explosion)
+        {
+            explosion.reset(xloc,yloc);
+        }
+  },
+  manageExplosions:function(explosion){
+    if (game.time.now > explosion.explosionTime){
+      explosion.kill();
+    }
+  },
+
   screenWrap:function(sprite){
     var padding = 50;
     if (sprite.x < 0 - padding)
