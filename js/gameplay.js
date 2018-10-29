@@ -46,7 +46,7 @@ Gameplay.prototype = {
     lg_bubbles.setAll('anchor.y', 0.5);
     lg_bubbles.setAll('type', 'lg_bubble')
     lg_bubbles.forEach(function (bubble){
-      bubble.body.setCircle(45);
+      bubble.body.setCircle(57);
     })
 
     lg_bubbles.setAll('body.bounce.x', 1);
@@ -66,7 +66,7 @@ Gameplay.prototype = {
     md_bubbles.setAll('type', 'md_bubble')
     md_bubbles.setAll('mass', '0.75')
     md_bubbles.forEach(function (bubble){
-      // bubble.body.setCircle(25);
+      bubble.body.setCircle(25);
     })
 
   
@@ -85,7 +85,7 @@ Gameplay.prototype = {
    sm_bubbles.setAll('type', 'sm_bubble')
    sm_bubbles.setAll('mass', '0.4')
    sm_bubbles.forEach(function (bubble){
-      // bubble.body.setCircle(10);
+      bubble.body.setCircle(12);
     })
 
 
@@ -107,11 +107,30 @@ Gameplay.prototype = {
     bb.p1.scale.setTo(0.5)
     bb.p1.lives = 3
     bb.p1.anchor.set(0.5);
-    bb.p1.score = 0;
+    game.p1score = 0;
+
+    bb.p1.liveDisplay_one = game.add.sprite(game.width - 200, 50, 'ship')
+    bb.p1.liveDisplay_one.anchor.x = 0.5
+    bb.p1.liveDisplay_one.anchor.y = 0.5
+    bb.p1.liveDisplay_one.scale.setTo(0.25)
+    bb.p1.liveDisplay_one.angle = -90
+
+    bb.p1.liveDisplay_two = game.add.sprite(game.width - 166, 50, 'ship')
+    bb.p1.liveDisplay_two.anchor.x = 0.5
+    bb.p1.liveDisplay_two.anchor.y = 0.5
+    bb.p1.liveDisplay_two.scale.setTo(0.25)
+    bb.p1.liveDisplay_two.angle = -90
+
+    bb.p1.liveDisplay_three = game.add.sprite(game.width - 133, 50, 'ship')
+    bb.p1.liveDisplay_three.anchor.x = 0.5
+    bb.p1.liveDisplay_three.anchor.y = 0.5
+    bb.p1.liveDisplay_three.scale.setTo(0.25)
+    bb.p1.liveDisplay_three.angle = -90
+    
     //  and its physics settings
     game.physics.enable(bb.p1, Phaser.Physics.ARCADE);
 
-    bb.p1.body.drag.set(70);
+    bb.p1.body.drag.set(50);
     bb.p1.body.maxVelocity.set(200);
 
     //  Game input
@@ -164,13 +183,13 @@ Gameplay.prototype = {
     explosions.setAll('anchor.y', 0.5)
 
   
-      bb.scoreDisplay = game.add.text(100, 100, "100", {
-        font: "65px Arial",
+      bb.scoreDisplay = game.add.text(100, 50, "0", {
+        font: "32px Futura",
         fill: "#ffffff",
         align: "left"
     });
 
-    bb.scoreDisplay.anchor.setTo(0.5, 0.5);
+    bb.scoreDisplay.anchor.setTo(0, 0.5);
 
   },
   update: function() {
@@ -254,14 +273,15 @@ Gameplay.prototype = {
     
   } else if (!bb.p1.alive && bb.p1.lives <= 0){
     // game over
-    this.game.state.start("Preload");
+   // this.game.state.start("Preload");
+    this.game.state.start("GameOver");
   }
 
   },
 
   updateScoreDisplay: function(){
     var bb = this;
-    bb.scoreDisplay.setText(bb.p1.score);
+    bb.scoreDisplay.setText(game.p1score);
   },
 
   killPlayer: function(player,bubble){
@@ -269,6 +289,18 @@ Gameplay.prototype = {
       this.fireExplosion(player.x, player.y)
       player.kill();
       player.lives -= 1;
+
+      if (player.lives == 2){
+        this.p1.liveDisplay_three.alpha = 0;
+      }
+
+      if (player.lives == 1){
+        this.p1.liveDisplay_two.alpha = 0;
+      }
+
+      if (player.lives == 0){
+        this.p1.liveDisplay_one.alpha = 0;
+      }
 
       if (player.lives >= 0){
         game.time.events.add(Phaser.Timer.SECOND * 1, this.respawnPlayer, this).autoDestroy = true;
@@ -293,20 +325,20 @@ Gameplay.prototype = {
     var bb = this;
     switch(bubble.type){
       case "lg_bubble":
-         bb.p1.score += 100
+         game.p1score += 100
          this.spawnBubble(bubble.x+30,bubble.y+30,"md_bubble")
          this.spawnBubble(bubble.x-30,bubble.y-30,"md_bubble")
          this.spawnBubble(bubble.x+30,bubble.y-30,"md_bubble")
       break;
       case "md_bubble":
-         bb.p1.score += 50
+         game.p1score += 50
          this.spawnBubble(bubble.x+10,bubble.y+10,"sm_bubble")
          this.spawnBubble(bubble.x-10,bubble.y-10,"sm_bubble")
          this.spawnBubble(bubble.x+10,bubble.y-10,"sm_bubble")
          this.spawnBubble(bubble.x-10,bubble.y+10,"sm_bubble")
       break;
       case "sm_bubble":
-         bb.p1.score += 25
+         game.p1score += 25
       break;
       default:
       break;

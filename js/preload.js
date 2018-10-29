@@ -10,6 +10,7 @@ Preload.prototype = {
 			//	These are the assets we loaded in Boot.js
 		//	A nice sparkly background and a loading progress bar
 		game.stage.backgroundColor = '#171717';
+
 		//this.background = this.add.sprite(0, 0, 'preloaderBackground');
 		// this.preloadBar = this.add.sprite(100, 300, 'preloaderBar');
 		this.lycoloading = game.add.sprite(120,120,'lycoloading');
@@ -41,6 +42,8 @@ Preload.prototype = {
 
 		// New bb assets
 
+		
+		this.game.load.image('p1win', '/assets/p1win.png');
 		this.game.load.image('space', '/assets/deep-space.jpg');
     	this.game.load.image('bullet', '/assets/bullets.png');
     	this.game.load.image('ship', '/assets/player1.png');
@@ -269,6 +272,6 @@ Preload.prototype = {
 	},
 
 	create: function(){
-		this.game.state.start("Gameplay");
+		this.game.state.start("GameTitle");
 	}
 }
