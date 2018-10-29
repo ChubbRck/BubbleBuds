@@ -42,6 +42,10 @@ Preload.prototype = {
 
 		// New bb assets
 
+		this.game.load.image('p1button', '/assets/p1button.png');
+		this.game.load.image('p1button-hl', '/assets/p1button-hl.png');
+		this.game.load.image('p2button', '/assets/p2button.png');
+		this.game.load.image('p2button-hl', '/assets/p2button-hl.png');
 		
 		this.game.load.image('p1win', '/assets/p1win.png');
 		this.game.load.image('space', '/assets/deep-space.jpg');

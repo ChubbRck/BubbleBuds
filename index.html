@@ -56,7 +56,7 @@
 				// 	}
 				// };
 				//Create a new game that fills the screen
-				game = new Phaser.Game(960,540, Phaser.AUTO, 'game-container');
+				game = new Phaser.Game(960,540, Phaser.AUTO, 'game-container', this, false, true);
 				
 				//Add all states
 				game.state.add("Boot", Boot);
