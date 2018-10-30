@@ -10,7 +10,8 @@ Preload.prototype = {
 			//	These are the assets we loaded in Boot.js
 		//	A nice sparkly background and a loading progress bar
 		game.stage.backgroundColor = '#171717';
-
+		game.winner = -1;
+		game.whichMode = -1;
 		//this.background = this.add.sprite(0, 0, 'preloaderBackground');
 		// this.preloadBar = this.add.sprite(100, 300, 'preloaderBar');
 		this.lycoloading = game.add.sprite(120,120,'lycoloading');
@@ -47,6 +48,13 @@ Preload.prototype = {
 		this.game.load.image('p2button', '/assets/p2button.png');
 		this.game.load.image('p2button-hl', '/assets/p2button-hl.png');
 		
+
+		this.game.load.image('p1win', '/assets/p1win.png');
+		this.game.load.image('p2win', '/assets/p2win.png');
+		this.game.load.image('player2', '/assets/player2.png');
+		this.game.load.image('player2_sm', '/assets/player2_sm.png');
+		
+
 		this.game.load.image('p1win', '/assets/p1win.png');
 		this.game.load.image('space', '/assets/deep-space.jpg');
     	this.game.load.image('bullet', '/assets/bullets.png');
