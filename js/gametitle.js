@@ -7,7 +7,7 @@ GameTitle.prototype = {
 		game.stage.backgroundColor = "#1509ff";
 		game.p1score = 0;
 		game.whichMode = 0;
-
+		game.winner = -1;
 		this.cursors = game.input.keyboard.createCursorKeys();
 
 		this.p1button = game.add.sprite(game.width/2 - 75, game.height*2/3, 'p1button')
@@ -27,12 +27,12 @@ GameTitle.prototype = {
 		this.p2button_hl.alpha = 0;
 		this.p2button_hl.anchor.x = 0.5
 		this.p2button_hl.anchor.y = 0.5
-
+		
 		this.cursors.left.onDown.add(function(){
 			game.whichMode = (game.whichMode+1) % 2
 		}, this);
 		this.cursors.right.onDown.add(function(){
-			game.whichMode = (game.whichMode-1) % 2
+			game.whichMode = (game.whichMode+1) % 2
 		}, this);
 
 		confirmKey_1 = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);

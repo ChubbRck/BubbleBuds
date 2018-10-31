@@ -101,6 +101,7 @@ Gameplay.prototype = {
 
 
     //  Our player ship
+
     bb.p1 = game.add.sprite(game.width/2, game.height/2, 'ship');
     bb.p1.width = 89;
     bb.p1.height = 96;
@@ -137,10 +138,55 @@ Gameplay.prototype = {
     bb.cursors = game.input.keyboard.createCursorKeys();
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
 
+    if (game.whichMode == 1){
+
+    bb.p2 = game.add.sprite(20, game.height/2, 'player2');
+    // bb.p2.width = 89;
+    // bb.p2.height = 96;
+
+    bb.p2.scale.setTo(0.5)
+    bb.p2.lives = 3
+    bb.p2.padding = 25;
+    bb.p2.x = bb.p2.padding;
+    bb.p2.border = 3;
+    bb.p2.anchor.x = (0.5);
+    bb.p2.anchor.y = 0.5 
+    game.p2score = 0;
+
+    bb.p2.liveDisplay_one = game.add.sprite( 200, 50, 'player2_sm')
+    bb.p2.liveDisplay_one.anchor.x = 0.5
+    bb.p2.liveDisplay_one.anchor.y = 0.5
+    bb.p2.liveDisplay_one.scale.setTo(0.5)
+    // bb.p2.liveDisplay_one.angle = -90
+
+    bb.p2.liveDisplay_two = game.add.sprite(166, 50, 'player2_sm')
+    bb.p2.liveDisplay_two.anchor.x = 0.5
+    bb.p2.liveDisplay_two.anchor.y = 0.5
+    bb.p2.liveDisplay_two.scale.setTo(0.5)
+    // bb.p2.liveDisplay_two.angle = -90
+
+    bb.p2.liveDisplay_three = game.add.sprite(133, 50, 'player2_sm')
+    bb.p2.liveDisplay_three.anchor.x = 0.5
+    bb.p2.liveDisplay_three.anchor.y = 0.5
+    bb.p2.liveDisplay_three.scale.setTo(0.5)
+    // bb.p2.liveDisplay_three.angle = -90
+    
+      game.physics.enable(bb.p2, Phaser.Physics.ARCADE);
+    // bb.p2.body.setSize(200,200)
+  game.input.keyboard.addKeyCapture([ Phaser.Keyboard.W ]);
+  game.input.keyboard.addKeyCapture([ Phaser.Keyboard.A ]);
+  game.input.keyboard.addKeyCapture([ Phaser.Keyboard.S ]);
+  game.input.keyboard.addKeyCapture([ Phaser.Keyboard.D ]);
+  fireBoulderKey = game.input.keyboard.addKey(Phaser.Keyboard.Q );
+// confirmKey_1 = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+  fireBoulderKey.onDown.add(function(){this.chargeBoulder()}, this);
+    
+  fireBoulderKey.onUp.add(function(){this.fireBoulder()}, this);
+    }
     // Let's spawn 5 big asteroids to start
 
     var padding = 50;
-    var lg_bubble_one = lg_bubbles.getFirstExists(false);
+    var lg_bubble_one = lg_bubbles.getFirstDead();
 
     if (lg_bubble_one)
     {
@@ -149,7 +195,7 @@ Gameplay.prototype = {
         lg_bubble_one.body.velocity.y = -40 + game.rnd.integerInRange(0, 80);
     }
 
-    var lg_bubble_two = lg_bubbles.getFirstExists(false);
+    var lg_bubble_two = lg_bubbles.getFirstDead();
 
     if (lg_bubble_two)
     {
@@ -158,7 +204,7 @@ Gameplay.prototype = {
         lg_bubble_two.body.velocity.y = -40 + game.rnd.integerInRange(0, 80);
     }
 
-    var lg_bubble_three = lg_bubbles.getFirstExists(false);
+    var lg_bubble_three = lg_bubbles.getFirstDead();
 
     if (lg_bubble_three)
     {
@@ -167,7 +213,7 @@ Gameplay.prototype = {
         lg_bubble_three.body.velocity.y =  game.rnd.integerInRange(0, 40);
     }
 
-    var lg_bubble_four = lg_bubbles.getFirstExists(false);
+    var lg_bubble_four = lg_bubbles.getFirstDead();
 
     if (lg_bubble_four)
     {
@@ -190,11 +236,43 @@ Gameplay.prototype = {
     });
 
     bb.scoreDisplay.anchor.setTo(0, 0.5);
-
+    if (game.whichMode == 1){
+      bb.scoreDisplay.alpha = 0;
+    }
   },
   update: function() {
     var bb = this
-  
+    
+    var p2speed = 5;
+    if (game.whichMode == 1){
+      if (game.input.keyboard.isDown(Phaser.Keyboard.W) &&( bb.p2.border == 3 || bb.p2.border == 1)){
+        bb.p2.y -= p2speed;
+        this.checkBorderChange()
+      }
+      else if (game.input.keyboard.isDown(Phaser.Keyboard.S) && (bb.p2.border == 3 || bb.p2.border == 1)){
+        bb.p2.y += p2speed;  
+        this.checkBorderChange()
+      }
+      else if (game.input.keyboard.isDown(Phaser.Keyboard.A) && (bb.p2.border == 0 || bb.p2.border == 2)){
+        bb.p2.x -= p2speed;  
+        this.checkBorderChange()
+      }
+      else if (game.input.keyboard.isDown(Phaser.Keyboard.D)&& (bb.p2.border == 0 || bb.p2.border == 2)){
+        bb.p2.x += p2speed; 
+        this.checkBorderChange()
+      }
+
+      // if (game.input.keyboard.isDown(Phaser.Keyboard.Q)){
+      //   this.fireBoulder();
+      // }
+     
+
+      
+    }
+    
+
+
+
     if (bb.cursors.up.isDown)
     {
         game.physics.arcade.accelerationFromRotation(bb.p1.rotation, 200, bb.p1.body.acceleration);
@@ -228,17 +306,31 @@ Gameplay.prototype = {
       bb.p1.alpha = 1;
       }
 
+    if (game.whichMode == 1){
+      if (bb.p2.invicible) {
+        bb.p2.alpha = .4
+      } else{
+        bb.p2.alpha = 1;
+      }
+    }
 
 
-    bb.screenWrap(bb.p1);
+    
+      bb.screenWrap(bb.p1);
+    
 
-    bullets.forEachExists(this.screenWrap, this);
+    if (game.whichMode == 0){
+      bullets.forEachExists(this.screenWrap, this);
+    }
+
     lg_bubbles.forEachExists(this.screenWrap, this);
     md_bubbles.forEachExists(this.screenWrap, this);
 
     explosions.forEachExists(this.manageExplosions, this);
 
-    bb.checkForBubbleSpawn();
+    if (game.whichMode == 0){
+      bb.checkForBubbleSpawn();
+    }
 
     bb.checkForGameOver();
 
@@ -253,7 +345,16 @@ Gameplay.prototype = {
     game.physics.arcade.overlap(bb.p1, lg_bubbles, bb.killPlayer, null, this); 
 
     game.physics.arcade.overlap(bullets, md_bubbles, bb.killBubble, null, this); 
+
+    
+
     game.physics.arcade.overlap(bb.p1, md_bubbles, bb.killPlayer, null, this); 
+
+    if (game.whichMode == 1){
+     
+      game.physics.arcade.overlap(bb.p2, bullets, bb.killPlayerTwo, null, this); 
+      game.physics.arcade.overlap(bb.p1, bb.p2, bb.killPlayer, null, this); 
+    }
     // game.physics.arcade.collide(lg_bubbles, lg_bubbles, null, null, this); 
     // game.physics.arcade.collide(lg_bubbles);
     // game.physics.arcade.collide(md_bubbles);
@@ -264,8 +365,188 @@ Gameplay.prototype = {
     // game.physics.arcade.collide(md_bubbles,lg_bubbles);
   },
 
+  chargeBoulder: function(){
+    var bb = this;
+    bb.p2.pressTime = game.time.now;
+  },
+
+  fireBoulder: function(){
+    var bb = this;
+    var duration = game.time.now - bb.p2.pressTime;
+    var speed_modifier;
+        var boulder; 
+      if (game.time.now - bb.p2.lastFire < 200){
+        return;
+      }
+        if (duration > 1000){
+          boulder = lg_bubbles.getFirstDead();
+          speed_modifier = 2;
+        }
+          else if (duration > 500){
+            boulder = md_bubbles.getFirstDead();
+            speed_modifier = 3;
+          } else{
+            boulder = sm_bubbles.getFirstDead();
+            speed_modifier = 4;
+          }
+
+        if (boulder)
+        {
+            bb.p2.lastFire = game.time.now;
+            boulder.reset(bb.p2.x, bb.p2.y);
+            switch (bb.p2.border){
+              case 0:
+               boulder.body.velocity.x = -10*speed_modifier + game.rnd.integerInRange(0, 20*speed_modifier);
+               boulder.body.velocity.y = 20*speed_modifier
+              break;
+              case 1:
+               boulder.body.velocity.y = -10*speed_modifier + game.rnd.integerInRange(0, 20*speed_modifier);
+               boulder.body.velocity.x = -20*speed_modifier
+              break;
+              case 2:
+                boulder.body.velocity.x = -10*speed_modifier + game.rnd.integerInRange(0, 20*speed_modifier);
+               boulder.body.velocity.y = -20*speed_modifier
+              break;
+              case 3:
+              boulder.body.velocity.y = -10*speed_modifier + game.rnd.integerInRange(0, 20*speed_modifier);
+               boulder.body.velocity.x = 20*speed_modifier
+              break;
+
+            }
+            
+
+         
+        }
+    
+  },
+
+  checkBorderChange: function(){
+    var bb = this;
+    var borderJustChanged = false
+    // if (bb.p2.x > game.width - bb.p2.padding){
+    //   if (!borderJustChanged && bb.p2.border == 0){
+    //     bb.p2.border = 1
+        
+    //     bb.p2.x = game.width - bb.p2.padding - 1
+    //     bb.p2.y = bb.p2.padding + 5
+    //     console.log(bb.p2.y)
+
+    //   }
+    // }
+    if (bb.p2.x < bb.p2.padding){
+      if (!borderJustChanged && bb.p2.border == 0){
+        bb.p2.border = 3
+        
+        bb.p2.x = bb.p2.padding + 1
+        bb.p2.y = bb.p2.padding+10
+        bb.p2.angle = 0
+        // bb.p2.body.rotation = 0
+        // if (bb.p2.body){
+        bb.p2.body.setSize(53,207,0,0)
+        // }
+      
+
+      }
+    }
+
+     if (bb.p2.x > game.width - bb.p2.padding){
+      if (!borderJustChanged && bb.p2.border == 0){
+        bb.p2.border = 1
+        
+        bb.p2.x = game.width - bb.p2.padding - 1
+        bb.p2.y = bb.p2.padding+10
+        bb.p2.angle = 180
+        // bb.p2.body.rotation = 180
+         bb.p2.body.setSize(53,207,0,0)
+      }
+    }
+
+
+     if (bb.p2.x > game.width - bb.p2.padding){
+      if (!borderJustChanged && bb.p2.border == 2){
+        bb.p2.border = 1
+        
+        bb.p2.x = game.width - bb.p2.padding - 1
+        bb.p2.y = game.height - bb.p2.padding - 10
+        bb.p2.angle = 180
+        // bb.p2.body.rotation = 180
+         bb.p2.body.setSize(53,207,0,0)
+
+      }
+    }
+
+     if (bb.p2.x < bb.p2.padding){
+      if (!borderJustChanged && bb.p2.border == 2){
+        bb.p2.border = 3
+        
+        bb.p2.x = bb.p2.padding + 1
+        bb.p2.y = game.height-bb.p2.padding-20
+        bb.p2.angle = 0
+        // bb.p2.body.rotation = 0
+         bb.p2.body.setSize(53,207,0,0)
+      }
+    }
+
+
+    if (bb.p2.y < bb.p2.padding){
+      if (!borderJustChanged && bb.p2.border == 1){
+        bb.p2.border = 0
+        
+        bb.p2.y = bb.p2.padding + 1
+        bb.p2.x = game.width - bb.p2.padding - 20;
+        bb.p2.angle = 90
+        // bb.p2.body.rotation = 90
+         bb.p2.body.setSize(207,53, -50,50)
+
+      }
+    }
+
+    if (bb.p2.y > game.height - bb.p2.padding){
+      if (!borderJustChanged && bb.p2.border == 3){
+        bb.p2.border = 2
+        
+        bb.p2.y = game.height - bb.p2.padding - 1
+        bb.p2.x = bb.p2.padding + 20;
+        bb.p2.angle = -90
+        // bb.p2.body.rotation = -90
+        bb.p2.body.setSize(207,53, -50,100)
+
+      }
+    }
+
+    if (bb.p2.y > game.height - bb.p2.padding){
+      if (!borderJustChanged && bb.p2.border == 1){
+        bb.p2.border = 2
+        
+        bb.p2.y = game.height - bb.p2.padding - 1
+        bb.p2.x = game.width - bb.p2.padding - 20;
+        bb.p2.angle = -90
+        // bb.p2.body.rotation = -90
+        bb.p2.body.setSize(207,53, -50,100)
+
+      }
+    }
+
+    if (bb.p2.y < bb.p2.padding){
+      console.log(bb.p2.y)
+      if (!borderJustChanged && bb.p2.border == 3){
+        bb.p2.border = 0
+        
+        bb.p2.y = bb.p2.padding + 1
+        bb.p2.x = bb.p2.padding+20
+        bb.p2.angle = 90
+        // bb.p2.body.rotation = 90
+        bb.p2.body.setSize(207,53, -50,50)
+
+        console.log(bb.p2.y)
+      }
+    }
+
+  },
+
   checkForGameOver: function(){
   var bb = this;
+  // console.log(bb.p2.border)
   // TODO: Check for 2p mode
 
   if (!bb.p1.alive && bb.p1.lives >= 0){
@@ -274,7 +555,18 @@ Gameplay.prototype = {
   } else if (!bb.p1.alive && bb.p1.lives <= 0){
     // game over
    // this.game.state.start("Preload");
+   if (game.whichMode == 1){
+    game.winner = 2;
+   }
     this.game.state.start("GameOver");
+  }
+
+  if (game.whichMode == 1){
+
+     if (!bb.p2.alive && bb.p2.lives <= 0){
+      game.winner = 1;
+      this.game.state.start("GameOver")
+     }
   }
 
   },
@@ -282,6 +574,29 @@ Gameplay.prototype = {
   updateScoreDisplay: function(){
     var bb = this;
     bb.scoreDisplay.setText(game.p1score);
+  },
+
+  killPlayerTwo: function(player, bullet){
+    if (!player.invicible){
+      this.fireExplosion(player.x, player.y)
+      player.kill();
+      player.lives -= 1;
+
+      if (player.lives == 2){
+        this.p2.liveDisplay_three.alpha = 0;
+      }
+      if (player.lives == 1){
+        this.p2.liveDisplay_two.alpha = 0;
+      }
+
+      if (player.lives == 0){
+        this.p2.liveDisplay_one.alpha = 0;
+      }
+
+      if (player.lives >= 0){
+        game.time.events.add(Phaser.Timer.SECOND * 1, this.respawnPlayerTwo, this).autoDestroy = true;
+      }
+    }
   },
 
   killPlayer: function(player,bubble){
@@ -308,7 +623,44 @@ Gameplay.prototype = {
     }
 
   },
+  respawnPlayerTwo: function(){
+    var bb = this;
+    var whichBorder = game.rnd.integerInRange(1, 4) - 1;
+    var newX;
+    var newY;
+    console.log("which border" + whichBorder);
+    switch (whichBorder){
+      case 0:
+      newY = bb.p2.padding + 1;
+      newX = game.rnd.integerInRange(bb.p2.padding*3,game.width-bb.p2.padding*3)
+      bb.p2.angle = 90
 
+      break;
+      case 1:
+      newX = game.width - bb.p2.padding - 1;
+      newY= game.rnd.integerInRange(bb.p2.padding*3,game.height-bb.p2.padding*3)
+      bb.p2.angle = 180
+
+      break;
+      case 2:
+      newY = game.height - bb.p2.padding - 1;
+      newX = game.rnd.integerInRange(bb.p2.padding*3,game.width-bb.p2.padding*3)
+      bb.p2.angle = -90;
+
+      break;
+      case 3:
+      newX = bb.p2.padding + 1;
+      newY = game.rnd.integerInRange(bb.p2.padding*3,game.height-bb.p2.padding*3)
+      bb.p2.angle = 0;
+
+      break;
+    }
+
+    bb.p2.reset(newX, newY)
+    bb.p2.border = whichBorder;
+    bb.p2.invicible = true;
+    game.time.events.add(Phaser.Timer.SECOND * 2, bb.removeInvincibilityPlayerTwo, this).autoDestroy = true;
+  },
   respawnPlayer: function(){
     var bb = this;
     bb.p1.reset(game.width/2,game.height/2)
@@ -319,6 +671,10 @@ Gameplay.prototype = {
   removeInvincibility: function(){
     var bb = this;
     bb.p1.invicible = false;
+  },
+  removeInvincibilityPlayerTwo: function(){
+    var bb = this;
+    bb.p2.invicible = false;
   },
 
   killBubble: function(bullet, bubble){
@@ -356,19 +712,19 @@ Gameplay.prototype = {
     var speed_modifier = 2
     switch(type){
       case "lg_bubble":
-        bubble = lg_bubbles.getFirstExists(false);
+        bubble = lg_bubbles.getFirstDead();
       break;
       case "md_bubble":
         console.log("A medium bubble, actually")
-        bubble = md_bubbles.getFirstExists(false);
+        bubble = md_bubbles.getFirstDead();
         speed_modifier = 3
       break;
       case "sm_bubble":
-        bubble = sm_bubbles.getFirstExists(false);
+        bubble = sm_bubbles.getFirstDead();
         speed_modifier = 4
       break;
       default:
-        bubble = lg_bubbles.getFirstExists(false);
+        bubble = lg_bubbles.getFirstDead();
       break;
     }
     if (bubble){
@@ -381,7 +737,7 @@ Gameplay.prototype = {
   checkForBubbleSpawn: function(){
     var bb = this;
     var padding = 50;
-    var lg_bubble = lg_bubbles.getFirstExists(false);
+    var lg_bubble = lg_bubbles.getFirstDead();
     if (game.time.now > bb.bubbleSpawnTime){
       if (lg_bubble){
          // console.log("spawning bubble")
@@ -457,7 +813,7 @@ Gameplay.prototype = {
   fireBullet: function(){
     var bb = this;
     if (game.time.now > bb.bulletTime){
-        bullet = bullets.getFirstExists(false);
+        bullet = bullets.getFirstDead();
 
         if (bullet)
         {
@@ -472,7 +828,7 @@ Gameplay.prototype = {
   },
 
   fireExplosion:function(xloc,yloc){
-    explosion = explosions.getFirstExists(false);
+    explosion = explosions.getFirstDead();
     explosion.explosionTime = game.time.now + 100;
         if (explosion)
         {
@@ -511,5 +867,8 @@ Gameplay.prototype = {
    // game.debug.physicsGroup(lg_bubbles);
    // game.debug.physicsGroup(md_bubbles);
    // game.debug.physicsGroup(sm_bubbles);
+   
+   // game.debug.body(this.p2);
+
   }
 };
