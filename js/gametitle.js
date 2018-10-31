@@ -27,7 +27,7 @@ GameTitle.prototype = {
 		this.p2button_hl.alpha = 0;
 		this.p2button_hl.anchor.x = 0.5
 		this.p2button_hl.anchor.y = 0.5
-		
+
 		this.cursors.left.onDown.add(function(){
 			game.whichMode = (game.whichMode+1) % 2
 		}, this);
@@ -35,8 +35,24 @@ GameTitle.prototype = {
 			game.whichMode = (game.whichMode+1) % 2
 		}, this);
 
+		left_2 = game.input.keyboard.addKey(Phaser.Keyboard.A);
+		right_2 = game.input.keyboard.addKey(Phaser.Keyboard.D);
+		
+		left_2.onDown.add(function(){
+			game.whichMode = (game.whichMode+1) % 2
+		}, this);
+		right_2.onDown.add(function(){
+			game.whichMode = (game.whichMode+1) % 2
+		}, this);
+
+
+
+
 		confirmKey_1 = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		confirmKey_2 = game.input.keyboard.addKey(Phaser.Keyboard.Q);
+		
 		confirmKey_1.onDown.add(function(){this.game.state.start("Gameplay");}, this);
+		confirmKey_2.onDown.add(function(){this.game.state.start("Gameplay");}, this);
 	
 	},
 

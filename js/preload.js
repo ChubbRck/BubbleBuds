@@ -43,26 +43,26 @@ Preload.prototype = {
 
 		// New bb assets
 
-		this.game.load.image('p1button', '/assets/p1button.png');
-		this.game.load.image('p1button-hl', '/assets/p1button-hl.png');
-		this.game.load.image('p2button', '/assets/p2button.png');
-		this.game.load.image('p2button-hl', '/assets/p2button-hl.png');
+		this.game.load.image('p1button', '../assets/p1button.png');
+		this.game.load.image('p1button-hl', '../assets/p1button-hl.png');
+		this.game.load.image('p2button', '../assets/p2button.png');
+		this.game.load.image('p2button-hl', '../assets/p2button-hl.png');
 		
 
-		this.game.load.image('p1win', '/assets/p1win.png');
-		this.game.load.image('p2win', '/assets/p2win.png');
-		this.game.load.image('player2', '/assets/player2.png');
-		this.game.load.image('player2_sm', '/assets/player2_sm.png');
+		this.game.load.image('p1win', '../assets/p1win.png');
+		this.game.load.image('p2win', '../assets/p2win.png');
+		this.game.load.image('player2', '../assets/player2.png');
+		this.game.load.image('player2_sm', '../assets/player2_sm.png');
 		
 
-		this.game.load.image('p1win', '/assets/p1win.png');
-		this.game.load.image('space', '/assets/deep-space.jpg');
-    	this.game.load.image('bullet', '/assets/bullets.png');
-    	this.game.load.image('ship', '/assets/player1.png');
-    	this.game.load.image('wizball', '/assets/wizball.png');
-    	this.game.load.image('sm_bubble', '/assets/sm_bubble.png');
-    	this.game.load.image('md_bubble', '/assets/md_bubble.png');
-    	this.game.load.image('explosion', '/assets/explosion.png');
+		this.game.load.image('p1win', '../assets/p1win.png');
+		this.game.load.image('space', '../assets/deep-space.jpg');
+    	this.game.load.image('bullet', '../assets/bullets.png');
+    	this.game.load.image('ship', '../assets/player1.png');
+    	this.game.load.image('wizball', '../assets/wizball.png');
+    	this.game.load.image('sm_bubble', '../assets/sm_bubble.png');
+    	this.game.load.image('md_bubble', '../assets/md_bubble.png');
+    	this.game.load.image('explosion', '../assets/explosion.png');
 
 		// Cutscene assets
 
@@ -225,62 +225,62 @@ Preload.prototype = {
 		
 		// Player Graphics
 
-		this.game.load.spritesheet('blake-sprite-v3',  path + 'player/blake-sprite-v3.png', 70, 86, 3);
-		this.game.load.image('bubble-sm',  path + 'player/bubble_sm.png');
-		this.game.load.image('bubble-md',  path + 'player/bubble_md.png');
-		this.game.load.image('bubble-lg',  path + 'player/bubble_lg.png');
+		// this.game.load.spritesheet('blake-sprite-v3',  path + 'player/blake-sprite-v3.png', 70, 86, 3);
+		// this.game.load.image('bubble-sm',  path + 'player/bubble_sm.png');
+		// this.game.load.image('bubble-md',  path + 'player/bubble_md.png');
+		// this.game.load.image('bubble-lg',  path + 'player/bubble_lg.png');
 
-		// Powerups
+		// // Powerups
 
-		this.game.load.image('cherry',  path + 'powerups/cherry.png');
-		this.game.load.image('grapefruit',  path + 'powerups/grapefruit.png');
-		this.game.load.image('orange',  path + 'powerups/orange.png');
-		this.game.load.image('watermelon',  path + 'powerups/watermelon.png');
-		this.game.load.image('broccoli',  path + 'powerups/broccoli.png');
-		this.game.load.image('cabbage',  path + 'powerups/cabbage.png');
-		this.game.load.image('carrot',  path + 'powerups/carrot.png');
-		this.game.load.image('pumpkin',  path + 'powerups/pumpkin.png');
-		this.game.load.spritesheet('lycocoin-spritesheet',  path + 'powerups/lycocoin-spritesheet.png', 60, 60, 6);
+		// this.game.load.image('cherry',  path + 'powerups/cherry.png');
+		// this.game.load.image('grapefruit',  path + 'powerups/grapefruit.png');
+		// this.game.load.image('orange',  path + 'powerups/orange.png');
+		// this.game.load.image('watermelon',  path + 'powerups/watermelon.png');
+		// this.game.load.image('broccoli',  path + 'powerups/broccoli.png');
+		// this.game.load.image('cabbage',  path + 'powerups/cabbage.png');
+		// this.game.load.image('carrot',  path + 'powerups/carrot.png');
+		// this.game.load.image('pumpkin',  path + 'powerups/pumpkin.png');
+		// this.game.load.spritesheet('lycocoin-spritesheet',  path + 'powerups/lycocoin-spritesheet.png', 60, 60, 6);
 		
-		// Audio
+		// // Audio
 		
-		game.load.audio('wave',  path + 'audio/wave.mp3');
-		game.load.audio('cutscenetrack',  path + 'audio/debrieffinal.mp3');
-		game.load.audio('laser',  path + 'audio/laser.mp3');
-		game.load.audio('gametrack',  path + 'audio/gametrack.mp3');
-		game.load.audio('bosstrack',  path + 'audio/bosstrack.mp3');
-		game.load.audio('titletrack',  path + 'audio/titletrack.mp3');
-		game.load.audio('testblip1',  path + 'audio/testblip.mp3');
-		game.load.audio('missile',  path + 'audio/missile1.mp3');
-		game.load.audio('powerup',  path + 'audio/powerup.mp3');
-		game.load.audio('explosion1',  path + 'audio/explosion1.mp3');
-		game.load.audio('bosslaser',  path + 'audio/bosslaser-faster.mp3');
+		// game.load.audio('wave',  path + 'audio/wave.mp3');
+		// game.load.audio('cutscenetrack',  path + 'audio/debrieffinal.mp3');
+		// game.load.audio('laser',  path + 'audio/laser.mp3');
+		// game.load.audio('gametrack',  path + 'audio/gametrack.mp3');
+		// game.load.audio('bosstrack',  path + 'audio/bosstrack.mp3');
+		// game.load.audio('titletrack',  path + 'audio/titletrack.mp3');
+		// game.load.audio('testblip1',  path + 'audio/testblip.mp3');
+		// game.load.audio('missile',  path + 'audio/missile1.mp3');
+		// game.load.audio('powerup',  path + 'audio/powerup.mp3');
+		// game.load.audio('explosion1',  path + 'audio/explosion1.mp3');
+		// game.load.audio('bosslaser',  path + 'audio/bosslaser-faster.mp3');
 
-		// Voiceover
+		// // Voiceover
 
-		game.load.audio('vo-haha',  path + 'audio/vo-haha.mp3');
-		game.load.audio('vo-lutina-v3',  path + 'audio/vo-lutina-v3.mp3');
-		game.load.audio('vo-masterxanthan',  path + 'audio/vo-masterxanthan.mp3');
-		game.load.audio('vo-lordlycopene',  path + 'audio/vo-lordlycopene.mp3');
-		game.load.audio('vo-needahand',  path + 'audio/vo-needahand.mp3');
-		game.load.audio('vo-niceshooting',  path + 'audio/vo-niceshooting.mp3');
-		game.load.audio('vo-letsdothis',  path + 'audio/vo-letsdothis.mp3');
-		game.load.audio('vo-ahoythere', path + 'audio/vo-ahoythere.mp3');
-		game.load.audio('vo-perhaps', path + 'audio/vo-perhaps.mp3');
-		game.load.audio('vo-fightofluene', path + 'audio/vo-fightofluene.mp3');
-		game.load.audio('vo-blasterupgrade', path + 'audio/vo-blasterupgrade.mp3');
-		game.load.audio('vo-speedup', path + 'audio/vo-speedup.mp3');
-		game.load.audio('vo-1up', path + 'audio/vo-1up.mp3');
-		game.load.audio('vo-gameover',  path + 'audio/vo-gameover.mp3');
-		game.load.audio('vo-nomnom',  path + 'audio/vo-nomnom.mp3');
-		game.load.audio('vo-seeya',  path + 'audio/vo-seeya.mp3');
-		game.load.audio('vo-ouch',  path + 'audio/vo-ouch.mp3');
+		// game.load.audio('vo-haha',  path + 'audio/vo-haha.mp3');
+		// game.load.audio('vo-lutina-v3',  path + 'audio/vo-lutina-v3.mp3');
+		// game.load.audio('vo-masterxanthan',  path + 'audio/vo-masterxanthan.mp3');
+		// game.load.audio('vo-lordlycopene',  path + 'audio/vo-lordlycopene.mp3');
+		// game.load.audio('vo-needahand',  path + 'audio/vo-needahand.mp3');
+		// game.load.audio('vo-niceshooting',  path + 'audio/vo-niceshooting.mp3');
+		// game.load.audio('vo-letsdothis',  path + 'audio/vo-letsdothis.mp3');
+		// game.load.audio('vo-ahoythere', path + 'audio/vo-ahoythere.mp3');
+		// game.load.audio('vo-perhaps', path + 'audio/vo-perhaps.mp3');
+		// game.load.audio('vo-fightofluene', path + 'audio/vo-fightofluene.mp3');
+		// game.load.audio('vo-blasterupgrade', path + 'audio/vo-blasterupgrade.mp3');
+		// game.load.audio('vo-speedup', path + 'audio/vo-speedup.mp3');
+		// game.load.audio('vo-1up', path + 'audio/vo-1up.mp3');
+		// game.load.audio('vo-gameover',  path + 'audio/vo-gameover.mp3');
+		// game.load.audio('vo-nomnom',  path + 'audio/vo-nomnom.mp3');
+		// game.load.audio('vo-seeya',  path + 'audio/vo-seeya.mp3');
+		// game.load.audio('vo-ouch',  path + 'audio/vo-ouch.mp3');
 
 
-		// Fonts
+		// // Fonts
 
-		game.load.bitmapFont('tandysoft', path + 'fonts/tandysoft.png',  path + 'fonts/tandysoft.fnt');
-		game.load.bitmapFont('coders', path + 'fonts/coders.png',  path + 'fonts/coders.fnt');
+		// game.load.bitmapFont('tandysoft', path + 'fonts/tandysoft.png',  path + 'fonts/tandysoft.fnt');
+		// game.load.bitmapFont('coders', path + 'fonts/coders.png',  path + 'fonts/coders.fnt');
 	},
 
 	create: function(){

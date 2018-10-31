@@ -6,7 +6,7 @@ GameOver.prototype = {
   	create: function(){
   		var bb = this;
   		bb.startTime = game.time.now;
-  		
+
   		console.log("Score was " + game.score)
   		if (game.winner == 1 || game.whichMode == 0){
 	  		bb.p1win = game.add.sprite(game.width/2, game.height/2-50, 'p1win');
@@ -46,12 +46,16 @@ GameOver.prototype = {
     	bb.continuePrompt.anchor.y = 0.5;
 
     	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
+    	game.input.keyboard.addKeyCapture([ Phaser.Keyboard.Q ]);
 	},
 
 	update: function(){
 		if (game.time.now > this.startTime + 1000){
 			if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
         		this.restartGame();
+    		}
+    		if (game.input.keyboard.isDown(Phaser.Keyboard.Q)){
+    			this.restartGame();
     		}
     	}
 	},
