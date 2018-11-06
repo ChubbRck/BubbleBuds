@@ -43,29 +43,29 @@ Preload.prototype = {
 
 		// New bb assets
 
-		this.game.load.image('title', '../assets/title.png');
+		this.game.load.image('title', '../assets/title.png?v=2');
 
-		this.game.load.image('p1button', '../assets/p1button.png');
-		this.game.load.image('p1button-hl', '../assets/p1button-hl.png');
-		this.game.load.image('p2button', '../assets/p2button.png');
-		this.game.load.image('p2button-hl', '../assets/p2button-hl.png');
+		this.game.load.image('p1button', '../assets/p1button.png?v=2');
+		this.game.load.image('p1button-hl', '../assets/p1button-hl.png?v=2');
+		this.game.load.image('p2button', '../assets/p2button.png?v=2');
+		this.game.load.image('p2button-hl', '../assets/p2button-hl.png?v=2');
 		
 
-		this.game.load.image('p1win', '../assets/p1win.png');
-		this.game.load.image('p2win', '../assets/p2win.png');
-		this.game.load.image('player2', '../assets/player2.png');
-		this.game.load.image('player2_sm', '../assets/player2_sm.png');
+		this.game.load.image('p1win', '../assets/p1win.png?v=2');
+		this.game.load.image('p2win', '../assets/p2win.png?v=2');
+		this.game.load.image('player2', '../assets/player2.png?v=2');
+		this.game.load.image('player2_sm', '../assets/player2_sm.png?v=2');
 		
 
-		this.game.load.image('p1win', '../assets/p1win.png');
-		this.game.load.image('p1win', '../assets/p1win.png');
+		this.game.load.image('p1win', '../assets/p1win.png?v=2');
+		this.game.load.image('p1win', '../assets/p1win.png?v=2');
 		this.game.load.image('space', '../assets/deep-space.jpg');
-    	this.game.load.image('bullet', '../assets/bullets.png');
-    	this.game.load.image('ship', '../assets/player1.png');
-    	this.game.load.image('wizball', '../assets/wizball.png');
-    	this.game.load.image('sm_bubble', '../assets/sm_bubble.png');
-    	this.game.load.image('md_bubble', '../assets/md_bubble.png');
-    	this.game.load.image('explosion', '../assets/explosion.png');
+    	this.game.load.image('bullet', '../assets/bullets.png?v=2');
+    	this.game.load.image('ship', '../assets/player1.png?v=2');
+    	this.game.load.image('wizball', '../assets/wizball.png?v=2');
+    	this.game.load.image('sm_bubble', '../assets/sm_bubble.png?v=2');
+    	this.game.load.image('md_bubble', '../assets/md_bubble.png?v=2');
+    	this.game.load.image('explosion', '../assets/explosion.png?v=2');
 
 		// Cutscene assets
 

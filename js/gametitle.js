@@ -43,10 +43,10 @@ GameTitle.prototype = {
 		right_2 = game.input.keyboard.addKey(Phaser.Keyboard.D);
 		
 		left_2.onDown.add(function(){
-			game.whichMode = (game.whichMode+1) % 2
+			//game.whichMode = (game.whichMode+1) % 2
 		}, this);
 		right_2.onDown.add(function(){
-			game.whichMode = (game.whichMode+1) % 2
+			//game.whichMode = (game.whichMode+1) % 2
 		}, this);
 
 		p1_info = game.add.group();
@@ -93,10 +93,10 @@ GameTitle.prototype = {
 
 
 		confirmKey_1 = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-		confirmKey_2 = game.input.keyboard.addKey(Phaser.Keyboard.Q);
+		//confirmKey_2 = game.input.keyboard.addKey(Phaser.Keyboard.Q);
 		
 		confirmKey_1.onDown.add(function(){this.game.state.start("Gameplay");}, this);
-		confirmKey_2.onDown.add(function(){this.game.state.start("Gameplay");}, this);
+		//confirmKey_2.onDown.add(function(){this.game.state.start("Gameplay");}, this);
 	
 	},
 
