@@ -9,28 +9,28 @@ Preload.prototype = {
 		game.time.advancedTiming = true;
 			//	These are the assets we loaded in Boot.js
 		//	A nice sparkly background and a loading progress bar
-		game.stage.backgroundColor = '#171717';
+		game.stage.backgroundColor = '#1509ff';
 		game.winner = -1;
 		game.whichMode = -1;
 		//this.background = this.add.sprite(0, 0, 'preloaderBackground');
 		// this.preloadBar = this.add.sprite(100, 300, 'preloaderBar');
-		this.lycoloading = game.add.sprite(120,120,'lycoloading');
-	   	this.lycoloading.anchor.setTo(0.5,0.5);
-	   	this.lycoloading.x = 1200/2;
-	   	this.lycoloading.y = 600/2;
-	    this.lycoloading.animations.add('run');
-	    this.lycoloading.animations.play('run',15, true);
+		// this.lycoloading = game.add.sprite(120,120,'lycoloading');
+	 //   	this.lycoloading.anchor.setTo(0.5,0.5);
+	 //   	this.lycoloading.x = 1200/2;
+	 //   	this.lycoloading.y = 600/2;
+	 //    this.lycoloading.animations.add('run');
+	 //    this.lycoloading.animations.play('run',15, true);
 
-	    this.loadingText = game.add.sprite(120,120,'loading-text-v2');
-	    this.loadingText.anchor.setTo(0.5,0.5);
-	   	this.loadingText.x = 1200/2;
-	   	this.loadingText.y = 500;
-	   	this.loadingText.smoothed = false;
-	   	this.loadingText.animations.add('run');
-	    this.loadingText.animations.play('run',3, true);
+	 //    this.loadingText = game.add.sprite(120,120,'loading-text-v2');
+	 //    this.loadingText.anchor.setTo(0.5,0.5);
+	 //   	this.loadingText.x = 1200/2;
+	 //   	this.loadingText.y = 500;
+	 //   	this.loadingText.smoothed = false;
+	 //   	this.loadingText.animations.add('run');
+	 //    this.loadingText.animations.play('run',3, true);
 
-	    this.dtext = game.add.text(0,0,"d", {fill:'white', font:'22px Coders', align: 'left', wordWrap: true, wordWrapWidth:700, });
-	    this.dtext.alpha = 0.1;
+	 //    this.dtext = game.add.text(0,0,"d", {fill:'white', font:'22px Coders', align: 'left', wordWrap: true, wordWrapWidth:700, });
+	 //    this.dtext.alpha = 0.1;
 
 	    //capture the spacebar to prevent the browser from stealing focus 
 
@@ -42,6 +42,8 @@ Preload.prototype = {
 		//this.load.setPreloadSprite(this.preloadBar);
 
 		// New bb assets
+
+		this.game.load.image('title', '../assets/title.png');
 
 		this.game.load.image('p1button', '../assets/p1button.png');
 		this.game.load.image('p1button-hl', '../assets/p1button-hl.png');
@@ -55,6 +57,7 @@ Preload.prototype = {
 		this.game.load.image('player2_sm', '../assets/player2_sm.png');
 		
 
+		this.game.load.image('p1win', '../assets/p1win.png');
 		this.game.load.image('p1win', '../assets/p1win.png');
 		this.game.load.image('space', '../assets/deep-space.jpg');
     	this.game.load.image('bullet', '../assets/bullets.png');
